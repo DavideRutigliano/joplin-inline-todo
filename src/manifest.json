@@ -1,13 +1,13 @@
 {
 	"manifest_version": 1,
-	"id": "plugin.calebjohn.todo",
+	"id": "plugin.daviderutigliano.todo",
 	"app_min_version": "2.7",
 	"version": "1.7.1",
 	"name": "Inline TODO",
 	"description": "Write TODOs *everywhere* and view them in one place.",
 	"author": "Caleb John",
-	"homepage_url": "https://github.com/CalebJohn/joplin-inline-todo#readme",
-	"repository_url": "https://github.com/CalebJohn/joplin-inline-todo",
+	"homepage_url": "https://github.com/daviderutigliano/joplin-inline-todo#readme",
+	"repository_url": "https://github.com/daviderutigliano/joplin-inline-todo",
 	"keywords": ["todo", "productivity"],
 	"categories": ["editor", "productivity", "personal knowledge management"],
 	"icons": {

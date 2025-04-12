@@ -3,14 +3,14 @@
   "version": "1.7.1",
   "scripts": {
     "dist": "webpack --joplin-plugin-config buildMain && webpack --joplin-plugin-config buildExtraScripts && webpack --joplin-plugin-config createArchive",
-    "prepare": "npm run dist",
-    "update": "npm install -g generator-joplin && yo joplin --update",
+    "prepare": "NODE_OPTIONS=--openssl-legacy-provider npm run dist",
+    "update": "NODE_OPTIONS=--openssl-legacy-provider npm install -g generator-joplin && yo joplin --update",
     "updatetags": "LOGS=$(git log $(git describe --tags --abbrev=0 HEAD~1)..HEAD~1 --oneline) && git tag -fam \"v$npm_package_version\n\n$LOGS\" v$npm_package_version && git tag -fa v$npm_package_version",
     "postversion": "npm run updatetags && git push origin master --tags",
     "version": "sed -i '/\\\"version\\\": \\\"/s/[^\\\"]*\\\",/'\"$npm_package_version\\\",/\" src/manifest.json && git add src/manifest.json"
   },
   "license": "MIT",
-  "homepage": "https://github.com/CalebJohn/joplin-inline-todo#readme",
+  "homepage": "https://github.com/daviderutigliano/joplin-inline-todo#readme",
   "keywords": [
     "joplin-plugin",
     "todo"

@@ -12,7 +12,7 @@ The basic function of this plugin is to have a single note where you can view al
 - Create a Todo Summary in your folder of choice (Tools -> Create TODO Summary Note)
 
 #### Or
-- Download the [plugin jpl](https://github.com/joplin/plugins/raw/master/plugins/plugin.calebjohn.todo/plugin.jpl)
+- Download the [plugin jpl](https://github.com/joplin/plugins/raw/master/plugins/plugin.daviderutigliano.todo/plugin.jpl)
 - Go to `Tools -> Options -> Plugins`
 - Click on the gear icon and select "Install from file"
 - Select the downloaded jpl file
