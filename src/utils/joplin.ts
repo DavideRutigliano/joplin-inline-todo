@@ -4,13 +4,22 @@ import joplin from "api";
 /** getAllNotes *************************************************************************************************************************************
  * Gets all the notes from joplin                                                                                                                   *
  ***************************************************************************************************************************************************/
-export async function getAllNotes(){
+export async function getAllNotes(parentId?: string){
     var allNotes = []
-    var pageNum = 0
-	do {
-		var response = await joplin.data.get(['notes'], { fields: ['id', "todo_due", "todo_completed"], page: pageNum++})
+    const options: any = {
+        fields: ['id', 'title', 'todo_due', 'todo_completed'],
+        page: 0,
+    };
+    if (parentId) {
+        options.parent_id = parentId;
+    }
+
+    do {
+        var response = await joplin.data.get(['notes'], options)
         allNotes = allNotes.concat(response.items)
+        options.page++;
 	} while (response.has_more)
+
     return allNotes
 }
 

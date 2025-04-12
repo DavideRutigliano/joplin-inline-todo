@@ -2,42 +2,40 @@
 import { Checkbox } from '../model/checkbox';
 
 export function parseCheckboxesFromMarkdown(body: string): Checkbox[] {
-    const lines = body.split('\n');
-    const checkboxes: Checkbox[] = [];
+	const lines = body.split('\n');
+	const checkboxes: Checkbox[] = [];
 
-    const checkboxRegex = /^[-*] \[( |x)] (.*?)( <!-- inlineTodoId:(.+) -->)?$/;
+	// Match checkbox and optional comment
+	const checkboxRegex = /^[-*] \[( |x)] (.*?)( <!-- (.*?) -->)?$/;
 
-    for (let i = 0; i < lines.length; i++) {
-        const match = lines[i].match(checkboxRegex);
-        if (match) {
-            checkboxes.push({
-                lineText: lines[i],
-                isChecked: match[1] === 'x',
-                content: match[2],
-                todoId: match[4],
-                lineIndex: i,
-            });
-        }
-    }
+	for (let i = 0; i < lines.length; i++) {
+		const match = lines[i].match(checkboxRegex);
+		if (match) {
+			const isChecked = match[1] === 'x';
+			const content = match[2];
+			const metadataRaw = match[4] || '';
 
-    return checkboxes;
+            const todoId = getMetadataValue(metadataRaw, /inlineTodoId:([^\s]+)/);
+            const alarm = getMetadataValue(metadataRaw, /alarm:([^\s]+)/);
+            const recurrence = getMetadataValue(metadataRaw, /recurrence:([^\s]+)/);
+            const description = getMetadataValue(metadataRaw, /description:"([^"]+)"/);
+			checkboxes.push({
+				lineIndex: i,
+				lineText: lines[i],
+				isChecked,
+				content,
+				todoId: todoId,
+                alarm: alarm ? alarm : "",
+                recurrence: recurrence ? recurrence : "",
+                description: description ? description : "",
+			});
+		}
+	}
+    console.info("Parsed checkboxes:", checkboxes);
+
+	return checkboxes;
 }
 
-function parseCheckboxMetadata(comment: string) {
-	const result: {
-		id?: string;
-		alarm?: string;
-		recurrence?: string;
-	} = {};
-
-	const idMatch = comment.match(/todoid:([a-f0-9]+)/);
-	if (idMatch) result.id = idMatch[1];
-
-	const alarmMatch = comment.match(/alarm:([0-9T:-]+)/);
-	if (alarmMatch) result.alarm = alarmMatch[1];
-
-	const recurrenceMatch = comment.match(/recurrence:(\w+)/);
-	if (recurrenceMatch) result.recurrence = recurrenceMatch[1];
-
-	return result;
+function getMetadataValue(metadataRaw: string, pattern: RegExp): string | undefined {
+    return metadataRaw.match(pattern)?.[1];
 }
